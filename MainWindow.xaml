@@ -1,0 +1,110 @@
+﻿<Window x:Class="Weather.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Weather"
+        mc:Ignorable="d"
+        Title="Weather" Height="640" Width="360">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="39*"/>
+            <ColumnDefinition Width="283*"/>
+            <ColumnDefinition Width="38*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="90*"/>
+            <RowDefinition Height="152*"/>
+            <RowDefinition Height="14*"/>
+            <RowDefinition Height="105*"/>
+            <RowDefinition Height="255*"/>
+            <RowDefinition Height="8*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel DataContext="{Binding cityTimeInfoModels}" Grid.Column="1"  HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto">
+            <TextBlock Text="{Binding City}" FontSize="24" HorizontalAlignment="Center" Foreground="White"/>
+            <TextBlock Text="{Binding Time}"  FontSize="17" HorizontalAlignment="Center" Foreground="White"/>
+        </StackPanel>
+
+        <StackPanel DataContext="{Binding todayWeatherModels}" Grid.Column="1" Margin="0,90,0,0" Grid.RowSpan="2">
+            <StackPanel.Background>
+                <ImageBrush ImageSource="/Rectangle 7.png"/>
+            </StackPanel.Background>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="168*"/>
+                    <ColumnDefinition Width="115*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock HorizontalAlignment="Right"
+                           VerticalAlignment="Bottom"
+                           Foreground="White"
+                           FontSize="53" Height="70"
+                           Text="{Binding Temp}"/>
+                <Image Grid.Column="1" Source="{Binding WeatherIcon}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="50" Width="50"/>
+            </Grid>
+            <Grid>
+                <StackPanel>
+                    <TextBlock Text="{Binding WeatherInfo}" FontSize="24" Foreground="White" HorizontalAlignment="Center"/>
+                    <TextBlock Text="{Binding FeelsLike}" FontSize="17" Foreground="White" HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+
+        <Image Source="/Rectangle 7.png"
+               Stretch="Fill"
+               Grid.Column="1"
+               Grid.Row="2"
+               Grid.RowSpan="3" Margin="0,14,0,0"/>
+
+        <Grid Grid.Column="1" Grid.Row="2" Margin="0,14,0,0" Grid.RowSpan="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="23*"/>
+                <RowDefinition Height="82*"/>
+            </Grid.RowDefinitions>
+            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" FontSize="18" Text="Weather" Height="29" Width="81"/>
+            <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                <ItemsControl ItemsSource="{Binding hourlyWeatherModels}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock HorizontalAlignment="Center" Foreground="White" Text="{Binding Time}" FontSize="8"/>
+                                <Image Width="30" Height="30" Source="{Binding WeatherIcon}"/>
+                                <TextBlock HorizontalAlignment="Center" Foreground="White" Text="{Binding Temp}" FontSize="8"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Grid>
+
+        <ScrollViewer Grid.Column="1" Grid.Row="3" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Margin="0,105,0,0" Grid.RowSpan="2">
+            <ItemsControl ItemsSource="{Binding weaklyWeatherModels}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBlock Width="100" HorizontalAlignment="Left" Margin="5,0"  FontSize="13" Foreground="White" Text="{Binding DayOfWeak}"/>
+                            <Image Margin="0,0,20,0" Width="30" Source="{Binding WeatherIcon}"/>
+                            <TextBlock Width="30" HorizontalAlignment="Left" Margin="5,0" FontSize="13" Foreground="White" Text="{Binding TempMax}"/>
+                            <TextBlock Width="30" HorizontalAlignment="Left" Margin="5,0" FontSize="13" Foreground="White" Text="{Binding TempMin}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+
+        <Button Command="{Binding UpdateCommand}" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Top" Height="30" Width="30">
+            <Button.Background>
+                <ImageBrush ImageSource="/reload.png"/>
+            </Button.Background>
+        </Button>
+
+        <Grid.Background>
+            <ImageBrush ImageSource="/Background.png"/>
+        </Grid.Background>
+    </Grid>
+</Window>
